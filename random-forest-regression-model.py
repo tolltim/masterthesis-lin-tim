@@ -31,6 +31,7 @@ def get_config():
         ],
         'base_path': "train-data/",
         "grid_search": False,
+        'road_closure_date': "12.06.2023",
         "use_all_features": False,
         "selected_features": ['58', 'removedparking-kol','weekday','87', 'tmax','89_emoped','tsun', '26', '90', '92',
                               '54', '55', '6', '70', 'bikedirection_north', 'pres', '88', '11'], #selecetd features based on importance and own understanding
@@ -62,7 +63,7 @@ def merge_data(datasets):
     return merged_data
 
 
-def preprocess_data(merged_data, road_closure_date="12.06.2023"):
+def preprocess_data(merged_data, road_closure_date):
     """
     Preprocess data before and after the road closure date.
     """
@@ -177,9 +178,10 @@ def evaluate_model(y_test, y_pred):
 def main():
     config = get_config()
 
+    road_closure_date = config['road_closure_date']
     datasets = load_data(config['data_files'], config['base_path'])
     merged_data = merge_data(datasets)
-    merged_data_before, merged_data_after = preprocess_data(merged_data)
+    merged_data_before, merged_data_after = preprocess_data(merged_data, road_closure_date)
 
     # Modify user-defined configurations based on user input
     config["grid_search"] = input(
