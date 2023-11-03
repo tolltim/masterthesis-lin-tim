@@ -3,7 +3,7 @@ This repo contains the random forest model which was built for my masterthesis b
 
 
 To change the parameters of the rf model, look at the picture and choose numbers to predict the speed data. 
-The target features can be selected with in the same purpose. 
+The target features can be selected from the same pictures and the variables.csv in the train-data folder 
 
 
 topic: Creating a Predictive Model for the Traffic Impacts of Road Closures: A study in the Area of Munich. 
