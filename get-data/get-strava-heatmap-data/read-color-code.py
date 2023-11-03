@@ -4,6 +4,14 @@ from PIL import Image
 import glob
 import math
 
+
+# Directory containing the PNG images
+image_directory = "output"
+
+# Directory to store the JSON files
+json_directory = "color_codes"
+
+
 def calculate_brightness(rgb):
     r, g, b = rgb
     brightness = math.sqrt(0.299 * r**2 + 0.587 * g**2 + 0.114 * b**2)
@@ -38,11 +46,7 @@ def save_color_codes(image_path, json_path):
 
 
 
-# Directory containing the PNG images
-image_directory = "output"
 
-# Directory to store the JSON files
-json_directory = "color_codes"
 
 if not os.path.exists(json_directory):
     os.makedirs(json_directory)

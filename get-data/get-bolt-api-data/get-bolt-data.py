@@ -27,7 +27,7 @@ if response.status_code == 200:
     now = datetime.datetime.now()
     current_datetime = now.strftime("%Y-%m-%d_%H-%M")
 
-    # Save response data to JSON file
+    # Save response data
     output_filename = f"output/bolt_data_{current_datetime}.json"
     with open(output_filename, "w") as file:
         file.write(response.text)

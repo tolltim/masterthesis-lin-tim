@@ -41,7 +41,7 @@ coordinates = [
 url_template = ""
 def login_to_strava():
     """
-    Yoo here you need your credentials wof your strava account
+    Yoo here you need your credentials of your strava account
     """
     login_url = "https://www.strava.com/login"
     username = ""

@@ -6,7 +6,7 @@ import time
 
 def get_vehicle_data(lat, lng, radius):
     url = f"https://platform.tier-services.io/v1/vehicle?lat={lat}&lng={lng}&radius={radius}"
-    ### you need to get the x-api-key by yourself
+    ### you need to get the x-api-key by yourself on tier website
     headers = {
         "X-Api-Key": ""
     }

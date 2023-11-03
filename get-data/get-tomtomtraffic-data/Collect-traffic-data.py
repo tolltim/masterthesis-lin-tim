@@ -6,6 +6,7 @@ import csv
 import time
 
 # Set up the API call with your TomTom API key and segment URL with zoom on level 9 which is equal to around 300 m tile slide
+# look at tomtom help sites to have more specified instructions
 api_key = "" # insert an api key
 segment_url = "https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/9/json"
 
