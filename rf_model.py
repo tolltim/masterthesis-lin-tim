@@ -33,7 +33,7 @@ def get_config():
         "grid_search": False,
         'road_closure_date': "12.06.2023",
         "use_all_features": False,
-        "selected_features": ['58', 'removedparking-kol','weekday','87', 'tmax','89_emoped','tsun', '26', '90', '92',
+        "selected_features": ['removedparking-kol','weekday','87', 'tmax','89_emoped', '26', '90', '92',
                               '54', '55', '6', '70', 'bikedirection_north', 'pres', '88', '11'], #selecetd features based on importance and own understanding
         'targets': ['87', '24', '25', '34', '45', '44'], #these targets are the inner porject area of the süedliche au
         'test_size': 0.2,
@@ -111,9 +111,13 @@ def train_model(X_train, y_train, best_params=None):
     """
     if not best_params:
         best_params = {
-            'n_estimators': 1080,
+            'n_estimators': 1120,
             'random_state': 42,
-            'max_depth': 14
+            'max_depth': None,
+            'bootstrap': True,
+            'min_samples_leaf': 1,
+            'min_samples_split': 5
+
         }
 
     imputer = SimpleImputer(strategy='mean')
@@ -186,7 +190,7 @@ def main():
     # Modify user-defined configurations based on user input
     config["grid_search"] = input(
         "Do you want to perform grid search tuning to fine tune the hyperparameters? \n This "
-        "will take a few minutes (yes/no): ").strip().lower() == "yes"
+        "will take up to 5 min (see parameter config to adjust) (yes/no): ").strip().lower() == "yes"
     config["use_all_features"] = input("Do you want to use all features from variables.csv instead of selected "
                                        "features? \n all features take a little (yes/no): ").strip().lower() == "yes"
 
