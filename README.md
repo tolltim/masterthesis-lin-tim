@@ -11,6 +11,12 @@ This repo contains the random forest model which was built for my masterthesis b
 *To change the parameters of the rf model, look at the picture in the repo or the train-data/variables.csv and choose numbers to predict the speed data. 
 The target features can be selected with the same way
 
+### Get data
+the folder get-data has all the scripts which were used to get the open source data. 
+The API-key needs to be adjusted and some special fixes in each script are described in the script itself.
+To run the get-data every hour you can use the windows task planer
+All the data collected needs specialized processing, which is not part of this repo. 
+
 
 
 topic of thesis: Creating a Predictive Model for the Traffic Impacts of Road Closures: A study in the Area of Munich. 
