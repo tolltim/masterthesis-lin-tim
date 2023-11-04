@@ -13,9 +13,9 @@ def tune_hyperparameters(X_train, y_train):
 
     param_grid = {
         'n_estimators': [1120,1140,1160, 1180],
-        'max_depth': [None,14,16],
-        'min_samples_split': [5, 10],
-        'min_samples_leaf': [1, 2],
+        'max_depth': [None,10,14,16],
+        'min_samples_split': [2,5, 10],
+        'min_samples_leaf': [1, 3],
         'bootstrap': [True, False]
     }
 

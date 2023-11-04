@@ -147,6 +147,7 @@ def feature_importance_analysis(model, X):
     sorted_indices = np.argsort(feature_importances)[::-1]
     top_features = X.columns[sorted_indices][:20]
     print("The top 20 features are:", top_features)
+    tum_blue = '#3070B3'
 
     # Visualize the feature importances of only top 20 features
     plt.figure(figsize=(12, 6))
@@ -154,7 +155,7 @@ def feature_importance_analysis(model, X):
     plt.xticks(rotation='vertical')
     plt.ylabel('Importance')
     plt.xlabel('Feature')
-    plt.grid(axis='y', color='#D3D3D3', linestyle='solid')
+    plt.grid(axis='y', color=tum_blue, linestyle='solid')
     plt.title('Top 20 feature importances')
     plt.tight_layout()  # Adjusts the layout to prevent overlap
     plt.show(block=True)
