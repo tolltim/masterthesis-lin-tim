@@ -6,7 +6,8 @@ This repo contains the random forest model which was built for my masterthesis b
 2. navigate to the cloned repo: cd <repo>
 3. Install the required packages: pip install -r requirements.txt
 4. Change the parameters in the get_config* in rf_model.py if necessary
-5. Run the rf_model.py and like it
+5. Run the rf_model.py and answer the questions for the model based on the input (hyperparameter tuning, selection of features and dataset splitting)
+
 
 *To change the parameters of the rf model, look at the picture in the repo or the train-data/variables.csv and choose numbers to predict the speed data. 
 The target features can be selected with the same way

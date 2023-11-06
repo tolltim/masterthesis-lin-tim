@@ -33,9 +33,8 @@ def get_config():
         "grid_search": False,
         'road_closure_date': "05.07.2023",
         "use_all_features": False,
-        "selected_features": ['86', 'tmax', '8_emoped', 'prcp', 'wdir', '1_escooter', '2_emoped',
-       '52', 'tavg', 'pres', '92_escooter', '37', '88_escooter', '45',
-       'bikedirection_south', '89_emoped', 'tsun', '43', 'removedparking-landl', 'weekday'], #selecetd features based on importance and own understanding
+        "selected_features": ['85', '86', '63', '91', '90', '84', '92', '89', '26', '72', '82', '87',
+       '68', '20', '76', '71', '22', 'weekday', '36', '61'], #selecetd features based on importance and own understanding
         'targets': ['85', '84', '86', '91', '48', '49', '58', '59'], #these targets are the inner porject area of walchenseeplatz
         'test_size': 0.2,
         'random_state': 42
@@ -100,7 +99,7 @@ def feature_target_selection(merged_data, road_closure_date, use_all_features, s
     y = merged_data[targets]
 
     # Ask the user which strategy they want to use
-    train_after_closure = input("Do you want to include data after the road closure for training? /n"
+    train_after_closure = input("Do you want to include data after the road closure for training? \n"
                                 "This means test.size = 0.2 (yes/no): ").strip().lower() == "no"
 
     if train_after_closure:
@@ -117,7 +116,7 @@ def feature_target_selection(merged_data, road_closure_date, use_all_features, s
         # Strategy 1: Train with 80% of data, test with 20% after road closure
         X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=test_size, random_state=random_state, shuffle=True)
 
-        # Filter the temporary test set for after the road closure date
+
         temp_dates = dates.iloc[X_temp.index]
         test_filter = temp_dates > road_closure_datetime
         X_test = X_temp.loc[test_filter]
@@ -143,7 +142,7 @@ def train_model(X_train, y_train, best_params=None):
             'max_depth': None,
             'bootstrap': True,
             'min_samples_leaf': 1,
-            'min_samples_split': 5
+            'min_samples_split': 2
         }
 
     # Initialize the imputer
@@ -195,13 +194,13 @@ def feature_importance_analysis(model, X):
     plt.ylabel('Importance')
     plt.xlabel('Feature')
     plt.grid(axis='y', color=tum_blue, linestyle='solid')
-    plt.title('Top 20 feature importances')
+    plt.title('Top 20 feature importances for Walchenseeplatz (training with data before road closure)')
     plt.tight_layout()  # Adjusts the layout to prevent overlap
     plt.show(block=True)
 
 
 # Before calling this function, ensure X_test_dates_filtered is properly filtered to match y_test_filtered and y_pred_filtered
-def save_predictions_to_csv(X_test_dates, X_test, y_test, y_pred, filename="predictions.csv"):
+def save_predictions_to_csv(X_test_dates, X_test, y_test, y_pred, filename="predictions_wp.csv"):
     # Assuming X_test_dates is a Series with the same index as X_test, y_test, and y_pred
     X_test = X_test.reset_index(drop=True)
     y_pred = y_pred.reset_index(drop=True)

@@ -194,13 +194,13 @@ def feature_importance_analysis(model, X):
     plt.ylabel('Importance')
     plt.xlabel('Feature')
     plt.grid(axis='y', color=tum_blue, linestyle='solid')
-    plt.title('Top 20 feature importances for Südliche Au without 87 and 88 (training with data before road closure)')
+    plt.title('Top 20 feature importances for Südliche Au')
     plt.tight_layout()  # Adjusts the layout to prevent overlap
     plt.show(block=True)
 
 
 # Before calling this function, ensure X_test_dates_filtered is properly filtered to match y_test_filtered and y_pred_filtered
-def save_predictions_to_csv(X_test_dates, X_test, y_test, y_pred, filename="predictions.csv"):
+def save_predictions_to_csv(X_test_dates, X_test, y_test, y_pred, filename="predictions_au.csv"):
     # Assuming X_test_dates is a Series with the same index as X_test, y_test, and y_pred
     X_test = X_test.reset_index(drop=True)
     y_pred = y_pred.reset_index(drop=True)
