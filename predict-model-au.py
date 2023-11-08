@@ -46,7 +46,7 @@ def main():
                                         pd.DataFrame(y_pred_post_closure,
                                                      columns=[f'Predicted_{col}' for col in target_variables])],
                                        axis=1)
-    predictions_csv_path = 'suedliche_au_predictions_and_actual.csv'
+    predictions_csv_path = 'suedliche_au_predictions_based_on_wp.csv'
     predictions_and_actual.to_csv(predictions_csv_path, index=False)
 
 
