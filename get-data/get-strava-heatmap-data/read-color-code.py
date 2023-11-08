@@ -8,7 +8,6 @@ import math
 # Directory containing the PNG images
 image_directory = "output"
 
-# Directory to store the JSON files
 json_directory = "color_codes"
 
 
