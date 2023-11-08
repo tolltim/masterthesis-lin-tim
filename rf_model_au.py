@@ -400,7 +400,6 @@ def main():
 
     feature_importance_analysis(model, X_train)
     evaluate_model(y_test, y_pred, X_test, X_test_dates)  # Add X_test_dates as an argument
-    save_predictions_to_csv(X_test_dates_filtered, X_test.loc[mask], y_test_filtered, y_pred_filtered)
     plot_predictions(y_test, y_pred, 'predictions/predictions_au.csv')
 
 

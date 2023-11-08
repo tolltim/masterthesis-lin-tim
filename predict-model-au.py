@@ -37,25 +37,31 @@ def main():
     # Predict for post-closure data
     X_post_closure = post_closure_data[selected_features]
     X_post_closure_imputed = imputer.transform(X_post_closure)
-    y_pred_post_closure = wp_model.predict(X_post_closure_imputed)
+
+    # Convert the imputed data back to a DataFrame, which is necessary for .loc indexing
+    # Ensure that the columns match the original DataFrame's columns
+    X_post_closure_imputed_df = pd.DataFrame(X_post_closure_imputed, columns=selected_features, index=X_post_closure.index)
+
+    y_pred_post_closure = wp_model.predict(X_post_closure_imputed_df)
 
     # Extract actual post-closure values for comparison
     y_actual_post_closure = post_closure_data[target_variables]
 
-    predictions_and_actual = pd.concat([post_closure_data['date'], y_actual_post_closure,
+    # Concatenate the date, actual values, and predicted values into one DataFrame
+    predictions_and_actual = pd.concat([dates_post_closure.reset_index(drop=True),
+                                        y_actual_post_closure.reset_index(drop=True),
                                         pd.DataFrame(y_pred_post_closure,
-                                                     columns=[f'Predicted_{col}' for col in target_variables])],
-                                       axis=1)
+                                                     columns=[f'Predicted_{col}' for col in target_variables])], axis=1)
     predictions_csv_path = 'suedliche_au_predictions_based_on_wp.csv'
     predictions_and_actual.to_csv(predictions_csv_path, index=False)
 
-
-    ### watch out, still not plotting the true values, need to write an own function for that..
+    # Plotting and evaluation functions can remain the same if they are expecting a DataFrame
     plot_predictions(y_test=y_actual_post_closure, y_pred=y_pred_post_closure,
                      predictions_csv_path=predictions_csv_path)
-    ### Using this function will overwrite the predictions_au from rf_model_au, keep that in mind!
-    evaluate_model(y_test=y_actual_post_closure, y_pred= y_pred_post_closure, X_test= X_post_closure_imputed,X_test_dates=dates_post_closure)
 
+    # Make sure to pass the DataFrame to the evaluate_model function, not the NumPy array
+    evaluate_model(y_test=y_actual_post_closure, y_pred=y_pred_post_closure,
+                   X_test=X_post_closure_imputed_df, X_test_dates=dates_post_closure)
 
 
 
