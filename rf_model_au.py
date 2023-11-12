@@ -43,7 +43,7 @@ def get_config():
                               'transportation-inner', 'outer_speed_',
                                'biketotal_', 'inner_speed1_', 'inner_speed2_',
                               'inner_speed3_', 'inner_speed4_', 'inner_speed5_', 'inner_speed6_', 'inner_speed7_',
-                              'inner_speed8_', "inner_escooter_", "inner_emoped_"],
+                              'inner_speed8_'],
 
             # [ 'removedparking','weekday', 'removedparking', 'inner_speed2_', "inner_escooter_",  'tmax_', 'biketotal_','inner_actmode_', 'newmobility', 'percentageclosedstreet'
             #                     'weekday',
