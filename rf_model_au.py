@@ -14,7 +14,7 @@ plt.ion()
 def get_config():
     """
     Return configurations for data processing and model training.
-    The selected features and target variables can be seen in the train-data folder
+    The selected features and target variables can be seen in the train-data-all folder
     Innerspeed variables are selected from left top to right bottom of the area
     The target features describe the inner project area of the südiche au.
     """
@@ -30,26 +30,36 @@ def get_config():
             "emopeds-counts.csv",
             "bike-data.csv"
         ],
-        'base_path': "train-data-au/",# folder for südliche au data
+        'base_path': "train-data-au/",  # folder for südliche au data
         "grid_search": False,
-        'road_closure_date': "12.06.2023", #closure date of südliche au
+        'road_closure_date': "12.06.2023",  # closure date of südliche au
         "use_all_features": False,
-        "selected_features": ['bicycle-inner', 'bicycle-outer', 'education-inner', 'removedparking',
-                              'consumption-outer', 'consumption-inner',
-                              'cultural-inner', 'weekday', 'cultural-outer', 'education-outer', 'transportation-outer',
-                              'transportation-inner', 'outer_age',
-                              'wspd_before', 'bikedirection_south_before',
-                              'bikedirection_north_before', 'tavg_before', 'inner_speed8_before',
-                              'snow_before', 'pres_before', 'wpgt_before', 'inner_speed1_before',
-                              'outer_actmode_before', 'inner_speed7_before',
-                              'inner_speed4_before', 'prcp_before', 'inner_speed3_before', 'tmax_before',
-                              'inner_actmode_before', 'inner_speed5_before', 'inner_speed6_before', 'tmin_before',
-                              'tsun_before', 'wdir_before',
-                              'inner_speed2_before', 'outer_speed_before',
-                              'biketotal_before'], #these are the same features only adding the before name to hinder the model to predict future variables
+        "selected_features":['wspd_', 'inner_age',  'outer_age' ,'newmobility','percentageclosedstreet',
+                               'tavg_',
+                               'bicycle-outer', 'removedparking', 'wpgt_',
+                              'outer_actmode_',
+                              'education-inner', 'prcp_',
+                               'inner_actmode_', 'cultural-inner', 'tmin_',  'weekday', 'wdir_',
+                              'transportation-inner', 'outer_speed_',
+                               'biketotal_', 'inner_speed1_', 'inner_speed2_',
+                              'inner_speed3_', 'inner_speed4_', 'inner_speed5_', 'inner_speed6_', 'inner_speed7_',
+                              'inner_speed8_', "inner_escooter_", "inner_emoped_"],
+
+            # [ 'removedparking','weekday', 'removedparking', 'inner_speed2_', "inner_escooter_",  'tmax_', 'biketotal_','inner_actmode_', 'newmobility', 'percentageclosedstreet'
+            #                     'weekday',
+            #                   'wspd_', 'bikedirection_south_',
+            #                   'bikedirection_north_', 'tavg_', 'inner_speed8_',
+            #                   'pres_', 'wpgt_', 'inner_speed1_',
+            #                   'outer_actmode_', 'inner_speed7_',
+            #                   'inner_speed4_', 'prcp_', 'inner_speed3_', 'tmax_',
+            #                   'inner_actmode_', 'inner_speed5_', 'inner_speed6_', 'tmin_',
+            #                   'tsun_', 'wdir_',
+            #                   'inner_speed2_', 'outer_speed_',
+            #                   'biketotal_', "inner_escooter_", "outer_escooter_", "inner_emoped_", "outer_emoped_"],
+        # these are the same features only adding the before name to hinder the model to predict future variables
         # with the same feature values, so for example, inner_speed1 would be predicted by inner_speed1, which makes no sense, so i invent those variables _before, with only the average after the road closure data
-        'targets': ['inner_speed1', 'inner_speed2', 'inner_speed3', 'inner_speed4', 'inner_speed5', 'inner_speed6',
-                    'inner_speed7', 'inner_speed8'],  # these targets are the inner porject area of the süedliche au
+        'targets': ['inner_speed1','inner_speed2', 'inner_speed3', 'inner_speed4', 'inner_speed5', 'inner_speed6',
+                    'inner_speed7', 'inner_speed8'],  # these targets are the inner project area of the süedliche au
         'test_size': 0.2,
         'random_state': 42
     }
@@ -65,6 +75,7 @@ def load_data(data_files, base_path):
         datasets[key_name] = pd.read_csv(base_path + file)
     return datasets
 
+
 def merge_data(datasets):
     """
     Merge datasets based on date.
@@ -75,21 +86,21 @@ def merge_data(datasets):
             merged_data = pd.merge(merged_data, df, on="date", how="outer")
     return merged_data
 
+
 def add_pre_closure_means_by_weekday(merged_data, features, road_closure_date_str):
     merged_data['date'] = pd.to_datetime(merged_data['date'], format='%d.%m.%Y')
 
     # Convert the road_closure_date from string to datetime
     road_closure_date = pd.to_datetime(road_closure_date_str, format='%d.%m.%Y')
 
-
     for feature in features:
-        new_col_name = f"{feature}_before"
+        new_col_name = f"{feature}_"
         merged_data[new_col_name] = None
 
     # Copy values before the road closure and calculate means based on 'weekday'
     for feature in features:
         # Copy the values before the closure date
-        merged_data.loc[merged_data['date'] <= road_closure_date, f"{feature}_before"] = merged_data.loc[
+        merged_data.loc[merged_data['date'] <= road_closure_date, f"{feature}_"] = merged_data.loc[
             merged_data['date'] <= road_closure_date, feature]
 
         # Calculate mean for each weekday before the road closure
@@ -98,7 +109,7 @@ def add_pre_closure_means_by_weekday(merged_data, features, road_closure_date_st
         # Assign the mean values based on weekday for the dates after the road closure
         for i, row in merged_data.loc[merged_data['date'] > road_closure_date].iterrows():
             weekday = row['weekday']
-            merged_data.at[i, f"{feature}_before"] = means[weekday]
+            merged_data.at[i, f"{feature}_"] = means[weekday]
 
     # Return the updated DataFrame
     return merged_data
@@ -120,8 +131,9 @@ def feature_target_selection(merged_data, road_closure_date, use_all_features, s
     """
     Select features and targets from the dataset.
     """
+    use_all_features: False
     if use_all_features:
-        selected_features_df = pd.read_csv("train-data/variables.csv")
+        selected_features_df = pd.read_csv("train-data-all/variables.csv")
         selected_features = selected_features_df["Feature Name"].tolist()
 
     # Ensure 'date' column is not in the selected features list and it exists in the dataframe
@@ -135,7 +147,6 @@ def feature_target_selection(merged_data, road_closure_date, use_all_features, s
     # Split data into features and targets
     dates = merged_data["date"]
 
-
     X = merged_data[selected_features]
     y = merged_data[targets]
 
@@ -146,7 +157,7 @@ def feature_target_selection(merged_data, road_closure_date, use_all_features, s
     if train_after_closure:
         # Strategy 2: Train only with data before road closure, test with data after
         train_filter = dates < road_closure_datetime
-        test_filter = ~train_filter  #r
+        test_filter = ~train_filter  # r
 
         X_train = X[train_filter]
         y_train = y[train_filter]
@@ -174,7 +185,7 @@ def train_model(X_train, y_train, best_params=None):
     Train a model using the training data.
     best_params are built upon different testing.
     """
-    if not best_params: # these are used if no tuning is selected from the user input
+    if not best_params:  # these are used if no tuning is selected from the user input
         best_params = {
             'n_estimators': 1120,
             'random_state': 42,
@@ -239,19 +250,20 @@ def feature_importance_analysis(model, X):
 
 # Before calling this function, ensure X_test_dates_filtered is properly filtered to match y_test_filtered and y_pred_filtered
 def save_predictions_to_csv(X_test_dates, X_test, y_test, y_pred, filename="predictions/predictions_au.csv"):
-    if isinstance(y_pred, np.ndarray):
-        y_pred = pd.DataFrame(y_pred, columns=['Predicted_' + str(i) for i in range(y_pred.shape[1])])
-
-    # Reset index
+    # Assuming X_test_dates is a Series with the same index as X_test, y_test, and y_pred
+    X_test = X_test.reset_index(drop=True)
     y_pred = y_pred.reset_index(drop=True)
     y_test = y_test.reset_index(drop=True)
-    X_test = X_test.reset_index(drop=True)
-    X_test_dates = X_test_dates.reset_index(drop=True)
 
-    # Combine the predicted values and the features
-    results_df = pd.concat([X_test_dates, X_test, y_test, y_pred], axis=1)
+    results_df = pd.concat([X_test, y_pred], axis=1)
 
-    # Save to CSV
+    for i, column in enumerate(y_test.columns):
+        results_df[f"True_{column}"] = y_test[column]
+        results_df[f"Predicted_{column}"] = y_pred.iloc[:, i]
+
+    # Add the date column if necessary
+    results_df.insert(0, 'date', X_test_dates.reset_index(drop=True))
+
     results_df.to_csv(filename, index=False)
     print(f"Predictions saved to {filename}")
 
@@ -363,7 +375,7 @@ def main():
                            'inner_speed4', 'prcp', 'inner_speed3', 'tmax',
                            'inner_actmode', 'inner_speed5', 'inner_speed6', 'tmin', 'tsun', 'wdir',
                            'inner_speed2', 'outer_speed',
-                           'biketotal']  # Replace with your actual feature names
+                           'biketotal', "inner_escooter", "outer_escooter", "inner_emoped", "outer_emoped"]  # Replace with your actual feature names
     road_closure_date = config['road_closure_date']
     merged_data = add_pre_closure_means_by_weekday(merged_data, features_to_process, road_closure_date)
 
@@ -371,8 +383,8 @@ def main():
     config["grid_search"] = input(
         "Do you want to perform grid search tuning to fine-tune the hyperparameters? \n This "
         "will take up to 5 min (see parameter config to adjust) (yes/no): ").strip().lower() == "yes"
-    config["use_all_features"] = input("Do you want to use all features from variables.csv instead of selected "
-                                       "features? \n all features take a little longer (yes/no): ").strip().lower() == "yes"
+    #config["use_all_features"] = input("Do you want to use all features from variables.csv instead of selected "
+     #                                  "features? \n all features take a little longer (yes/no): ").strip().lower() == "yes"
 
     X_train, X_test, y_train, y_test, X_test_dates = feature_target_selection(
         merged_data,
@@ -398,8 +410,10 @@ def main():
 
     y_pred = predict(model, imputer, X_test)
 
-    feature_importance_analysis(model, X_train)
-    evaluate_model(y_test, y_pred, X_test, X_test_dates)  # Add X_test_dates as an argument
+
+    evaluate_model(y_test, y_pred, X_test, X_test_dates)
+    feature_importance_analysis(model, X_train)# Add X_test_dates as an argument
+    # save_predictions_to_csv(X_test_dates_filtered, X_test.loc[mask], y_test_filtered, y_pred_filtered)
     plot_predictions(y_test, y_pred, 'predictions/predictions_au.csv')
 
 

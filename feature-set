@@ -1,0 +1,9 @@
+'wspd', 'inner_age', 'bicycle-inner', 'outer_age', 'bikedirection_south',
+                              'bikedirection_north', 'tavg',
+                              'snow', 'pres', 'bicycle-outer', 'removedparking', 'wpgt',
+                               'outer_actmode',
+                               'education-inner',  'prcp',   'consumption-outer', 'tmax',
+                              'consumption-inner', 'inner_actmode', 'cultural-inner', 'tmin', 'tsun', 'weekday', 'wdir',
+                                'transportation-inner','outer_speed', 'cultural-outer',
+                               'education-outer', 'biketotal', 'transportation-outer','inner_speed1','inner_speed2',
+                              'inner_speed3','inner_speed4','inner_speed5','inner_speed6','inner_speed7','inner_speed8'

@@ -12,10 +12,10 @@ def tune_hyperparameters(X_train, y_train):
     X_train_imputed = imputer.fit_transform(X_train)
 
     param_grid = {
-        'n_estimators': [1080, 1100,1120],
+        'n_estimators': [1080, 1100,1120, 1140,1160],
         'max_depth': [None,8,10,12],
-        'min_samples_split': [2,5, 10,12],
-        'min_samples_leaf': [1, 3,5],
+        'min_samples_split': [2,5, 10,12, 14],
+        'min_samples_leaf': [1, 3,5,7],
         'bootstrap': [True, False]
     }
 

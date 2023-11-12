@@ -1,6 +1,6 @@
 
 import joblib
-from rf_model_au import load_data, merge_data, get_config,  evaluate_model, plot_predictions
+from rf_model_au import load_data, merge_data, get_config,  evaluate_model, plot_predictions, add_pre_closure_means_by_weekday
 import pandas as pd
 
 
@@ -16,8 +16,9 @@ def main():
     datasets = load_data(config['data_files'], config['base_path'])
     merged_data = merge_data(datasets)
     merged_data['date'] = pd.to_datetime(merged_data['date'], format='%d.%m.%Y')
+    features_to_process = []
     road_closure_date = pd.to_datetime(config['road_closure_date'], format='%d.%m.%Y')
-
+    merged_data = add_pre_closure_means_by_weekday(merged_data, features_to_process, road_closure_date)
     post_closure_data = merged_data[merged_data['date'] > road_closure_date]
     dates_post_closure = post_closure_data['date']
 

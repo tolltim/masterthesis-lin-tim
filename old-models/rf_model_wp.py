@@ -31,7 +31,7 @@ def get_config():
             "emopeds-counts.csv",
             "bike-data.csv"
         ],
-        'base_path': "..train-data/",
+        'base_path': "..train-data-all/",
         "grid_search": False,
         'road_closure_date': "05.07.2023",
         "use_all_features": False,
@@ -159,7 +159,7 @@ def feature_target_selection(merged_data, road_closure_date, use_all_features, s
     Select features and targets from the dataset.
     """
     if use_all_features:
-        selected_features_df = pd.read_csv("../train-data/variables.csv")
+        selected_features_df = pd.read_csv("../train-data-all/variables.csv")
         selected_features = selected_features_df["Feature Name"].tolist()
 
     # Ensure 'date' column is not in the selected features list and it exists in the dataframe

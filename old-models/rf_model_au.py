@@ -31,7 +31,7 @@ def get_config():
             "emopeds-counts.csv",
             "bike-data.csv"
         ],
-        'base_path': "..train-data/",
+        'base_path': "..train-data-all/",
         "grid_search": False,
         'road_closure_date': "12.06.2023",
         "use_all_features": False,
@@ -51,14 +51,14 @@ def get_config():
                               "41_before", "42_before", "43_before", "44_before", "45_before", "46_before", "47_before",
                               "48_before",  "52_before", "53_before", "54_before", "55_before", "56_before", "57_before",
                               "58_before",  "62_before", "63_before", "64_before", "65_before", "66_before", "67_before", "72_before", "73_before",
-                              "removedparking-kol",  "1_emoped_before", "2_emoped_before",
-                              "4_emoped_before", "5_emoped_before", "8_emoped_before",
-                              "15_emoped_before", "87_emoped_before", "88_emoped_before",
-                              "89_emoped_before", "90_emoped_before", "92_emoped_before", "1_escooter_before",
-                              "2_escooter_before", "4_escooter_before", "5_escooter_before", "8_escooter_before",
-                              "15_escooter_before",
-                              "87_escooter_before", "88_escooter_before", "89_escooter_before", "90_escooter_before",
-                              "92_escooter_before", "tavg_before",
+                              "removedparking-kol",  "1_emoped_", "2_emoped_",
+                              "4_emoped_", "5_emoped_", "8_emoped_",
+                              "15_emoped_", "87_emoped_", "88_emoped_",
+                              "89_emoped_", "90_emoped_", "92_emoped_", "1_escooter_",
+                              "2_escooter_", "4_escooter_", "5_escooter_", "8_escooter_",
+                              "15_escooter_",
+                              "87_escooter_", "88_escooter_", "89_escooter_", "90_escooter_",
+                              "92_escooter_", "tavg_before",
                               "tmin_before", "tmax_before", "prcp_before", "snow_before", "wdir_before", "wspd_before",
                               "wpgt_before", "pres_before", "tsun_before","education-kol-inner", "education-landl-inner", "education-kol-outer",
                                  "education-landl-outer",
@@ -143,7 +143,7 @@ def feature_target_selection(merged_data, road_closure_date, use_all_features, s
     Select features and targets from the dataset.
     """
     if use_all_features:
-        selected_features_df = pd.read_csv("../train-data/variables.csv")
+        selected_features_df = pd.read_csv("../train-data-all/variables.csv")
         selected_features = selected_features_df["Feature Name"].tolist()
 
     # Ensure 'date' column is not in the selected features list and it exists in the dataframe
