@@ -6,13 +6,20 @@ This repo contains the random forest model which was built for my masterthesis b
 2. navigate to the cloned repo: cd <location of repo>
 3. Install the required packages: pip install -r requirements.txt
 4. Change the parameters in the get_config* in rf_model.py if necessary
-5. Run the rf_model_au.py and answer the questions for the model based on the input (hyperparameter tuning, selection of features** and dataset splitting)
+5. Run the xxx_model_xx.py and answer the questions for the model based on the input (hyperparameter tuning, selection of features** and dataset splitting)
 
 
 *To change the parameters of the rf model, look at the picture in the repo or the train-data/variables.csv and choose numbers to predict the speed data. 
 The target features can be selected with the same way
 
 **If using all features for prediction, this model is not a prediction model anymore, because the target variables are predicting
+
+### Models
+rf_model_au: Predictive model for Südliche Au with imputing by averaging by weekday
+rf_model_both: predictive model for either au or walchenseeplatz by using all features from both areas (not very much improvement)
+rf_model_testing: Using only data from before the road closure for predicten after the road closure (no good model)
+rf_model_wp: Predictive model for Walchenseeplatz with imputing by averaging by weekday
+predict-model-au.py: USing wp_model for predicting it for südliche Au
 
 ### Get data
 the folder get-data has all the scripts which were used to get the open source data. 
