@@ -16,10 +16,25 @@ The target features can be selected with the same way
 
 ### Models
 rf_model_au: Predictive model for Südliche Au with imputing by averaging by weekday
+
 rf_model_both: predictive model for either au or walchenseeplatz by using all features from both areas (not very much improvement)
+
 rf_model_testing: Using only data from before the road closure for predicten after the road closure (no good model)
+
 rf_model_wp: Predictive model for Walchenseeplatz with imputing by averaging by weekday
+
 predict-model-au.py: USing wp_model for predicting it for südliche Au
+
+
+### Datasets
+
+train-data-au: Training data for rf_model_au.py for Südliche Auu
+
+train-data-wp: training data for rf_model_wp.py for Walchenseeplatz area
+
+train-data-au-new: Trainings data for rf_model_testing.py, which just predicts future values by historical values without imputing
+
+train-data-all: Training data including all variables
 
 ### Get data
 the folder get-data has all the scripts which were used to get the open source data. 
