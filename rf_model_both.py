@@ -146,7 +146,7 @@ def feature_target_selection(merged_data, road_closure_date, use_all_features, s
         selected_features_df = pd.read_csv("train-data-all-all/variables.csv")
         selected_features = selected_features_df["Feature Name"].tolist()
 
-    # Ensure 'date' column is not in the selected features list and it exists in the dataframe
+    # Ensure 'date' column is not in the selected features
     if 'date' in selected_features:
         selected_features.remove('date')
     assert 'date' in merged_data, "The dataframe does not contain a 'date' column"
@@ -205,7 +205,7 @@ def train_model(X_train, y_train, best_params=None):
             'min_samples_split': 2
         }
 
-    # Initialize the imputer
+
     imputer = SimpleImputer(strategy='mean')
 
     # Impute missing values for X_train if necessary
@@ -218,7 +218,6 @@ def train_model(X_train, y_train, best_params=None):
     # Initialize the model with the best parameters
     model = RandomForestRegressor(**best_params)
 
-    # Wrap the model with MultiOutputRegressor
     multioutput_model = MultiOutputRegressor(model)
 
     # Fit the model using the filtered (or imputed) training data

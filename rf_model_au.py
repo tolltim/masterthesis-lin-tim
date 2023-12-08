@@ -7,6 +7,8 @@ from sklearn.impute import SimpleImputer
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+from matplotlib import rc
+import seaborn as sns
 
 plt.ion()
 
@@ -34,32 +36,21 @@ def get_config():
         "grid_search": False,
         'road_closure_date': "12.06.2023",  # closure date of südliche au
         "use_all_features": False,
-        "selected_features":['wspd_', 'inner_age',  'outer_age' ,'newmobility','percentageclosedstreet',
-                               'tavg_',
-                               'bicycle-outer', 'removedparking', 'wpgt_',
-                              'outer_actmode_',
-                              'education-inner', 'prcp_',
-                               'inner_actmode_', 'cultural-inner', 'tmin_',  'weekday', 'wdir_',
-                              'transportation-inner', 'outer_speed_',
-                               'biketotal_', 'inner_speed1_', 'inner_speed2_',
-                              'inner_speed3_', 'inner_speed4_', 'inner_speed5_', 'inner_speed6_', 'inner_speed7_',
-                              'inner_speed8_'],
-
-            # [ 'removedparking','weekday', 'removedparking', 'inner_speed2_', "inner_escooter_",  'tmax_', 'biketotal_','inner_actmode_', 'newmobility', 'percentageclosedstreet'
-            #                     'weekday',
-            #                   'wspd_', 'bikedirection_south_',
-            #                   'bikedirection_north_', 'tavg_', 'inner_speed8_',
-            #                   'pres_', 'wpgt_', 'inner_speed1_',
-            #                   'outer_actmode_', 'inner_speed7_',
-            #                   'inner_speed4_', 'prcp_', 'inner_speed3_', 'tmax_',
-            #                   'inner_actmode_', 'inner_speed5_', 'inner_speed6_', 'tmin_',
-            #                   'tsun_', 'wdir_',
-            #                   'inner_speed2_', 'outer_speed_',
-            #                   'biketotal_', "inner_escooter_", "outer_escooter_", "inner_emoped_", "outer_emoped_"],
+        "selected_features":
+            ['inner_speed1_', 'inner_speed2_', 'outer_speed_', 'inner_speed8_',
+             'inner_speed5_', 'inner_speed7_', 'wpgt_', 'inner_speed6_',
+             'inner_emoped_', 'tavg_', 'outer_escooter_', 'inner_speed3_',
+             'inner_escooter_', 'weekday', 'biketotal_', 'inner_speed4_',
+             'newmobility', 'tmin_', 'wspd_' ],
+            #
+            # ['inner_actmode_','inner_escooter_', 'outer_escooter_', 'inner_speed1_', 'inner_speed2_', 'outer_speed_',
+            #  'outer_emoped', 'inner_emoped', 'inner_speed8_',
+            #  'inner_speed5_', 'weekday', 'wpgt_',
+            #  'biketotal_', 'inner_speed4_', 'inner_speed3_',
+            #  'tmin_', 'prcp_'],
         # these are the same features only adding the before name to hinder the model to predict future variables
         # with the same feature values, so for example, inner_speed1 would be predicted by inner_speed1, which makes no sense, so i invent those variables _before, with only the average after the road closure data
-        'targets': ['inner_speed1','inner_speed2', 'inner_speed3', 'inner_speed4', 'inner_speed5', 'inner_speed6',
-                    'inner_speed7', 'inner_speed8'],  # these targets are the inner project area of the süedliche au
+        'targets': ['inner_speed1', 'inner_speed2', 'inner_speed3', 'inner_speed4', 'inner_speed5', 'inner_speed6', 'inner_speed7', 'inner_speed8'],  # these targets are the inner project area of the süedliche au
         'test_size': 0.2,
         'random_state': 42
     }
@@ -233,7 +224,11 @@ def feature_importance_analysis(model, X):
     feature_importances = model.estimators_[0].feature_importances_
     sorted_indices = np.argsort(feature_importances)[::-1]
     top_features = X.columns[sorted_indices][:20]
-    print("The top 20 features are:", top_features)
+    top_importances = feature_importances[sorted_indices][:20]
+
+    print("Top 20 features and their importances:")
+    for feature, importance in zip(top_features, top_importances):
+        print(f"{feature}: {importance}")
     tum_blue = '#3070B3'
 
     # Visualize the feature importances of only top 20 features
@@ -243,7 +238,8 @@ def feature_importance_analysis(model, X):
     plt.ylabel('Importance')
     plt.xlabel('Feature')
     plt.grid(axis='y', color=tum_blue, linestyle='solid')
-    plt.title('Top 20 feature importances for Südliche Au')
+    plt.title('Top 20 feature importances for  ' + r'$\bf{Südliche\ Au}$')
+
     plt.tight_layout()  # Adjusts the layout to prevent overlap
     plt.show(block=True)
 
@@ -341,7 +337,8 @@ def plot_predictions(y_test, y_pred, predictions_csv_path):
     ax1.plot([mean_true.min(), mean_true.max()], [mean_true.min(), mean_true.max()], '--k')
     ax1.set_xlabel('Mean True Values')
     ax1.set_ylabel('Mean Predictions')
-    ax1.set_title('Scatter Plot for Mean True vs. Mean Predicted')
+    ax1.set_title('Scatter plot for mean true vs. mean predicted relative speeds ' + r'$\bf{Südliche\ Au}$')
+
     ax1.grid(True)
 
     # Second subplot: Time series of mean true and mean predicted
@@ -352,7 +349,8 @@ def plot_predictions(y_test, y_pred, predictions_csv_path):
 
     ax2.xaxis.set_major_formatter(mdates.DateFormatter('%b-%Y'))
     ax2.xaxis.set_major_locator(mdates.MonthLocator())
-    ax2.set_title('True and Predicted Mean Relative Speed Values Over Time')
+    ax2.set_title('True and predicted mean relative speeds over time for  ' + r'$\bf{Südliche\ Au}$')
+
     ax2.grid(True)
     ax2.legend()
 
@@ -412,6 +410,11 @@ def main():
 
 
     evaluate_model(y_test, y_pred, X_test, X_test_dates)
+    corr_matrix = merged_data[config['selected_features']].corr()
+    plt.figure(figsize=(12, 8))
+    sns.heatmap(corr_matrix, annot=True, cmap='coolwarm')
+    plt.title('Feature Correlation Matrix for ' + r'$\bf{Südliche\ Au}$')
+    plt.show()
     feature_importance_analysis(model, X_train)# Add X_test_dates as an argument
     # save_predictions_to_csv(X_test_dates_filtered, X_test.loc[mask], y_test_filtered, y_pred_filtered)
     plot_predictions(y_test, y_pred, 'predictions/predictions_au.csv')

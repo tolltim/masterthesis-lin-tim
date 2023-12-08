@@ -28,7 +28,7 @@ def main():
                                'outer_speed',
                                 'biketotal', 'inner_speed1','inner_speed2',
                               'inner_speed3','inner_speed4','inner_speed5','inner_speed6','inner_speed7','inner_speed8',
-                           'inner_escooter', 'inner_emoped']
+                           'inner_escooter', 'inner_emoped', 'inner_speed']
     road_closure_date = pd.to_datetime(config['road_closure_date'], format='%d.%m.%Y')
     merged_data = add_pre_closure_means_by_weekday(merged_data, features_to_process, road_closure_date)
     ###merged_data = merged_data[merged_data['date'] < '22.08.2023']## to ensure that they have the same length
@@ -47,10 +47,9 @@ def main():
                               'transportation-inner', 'outer_speed_',
                                'biketotal_', 'inner_speed1_', 'inner_speed2_',
                               'inner_speed3_', 'inner_speed4_', 'inner_speed5_', 'inner_speed6_', 'inner_speed7_',
-                              'inner_speed8_'] ### need to be the same features as in wp model!!
-    target_variables = ['inner_speed1', 'inner_speed2', 'inner_speed3', 'inner_speed4', 'inner_speed5', 'inner_speed6',
-                        'inner_speed7', 'inner_speed8']### need to be the same target as in wp model!!
-    #merged_data = merged_data[merged_data['date'] > '2023-06-12']
+                              'inner_speed8_', 'inner_speed_'] ### need to be the same features as in wp model!!
+    target_variables = ['inner_speed']### need to be the same target as in wp model!!
+    merged_data = merged_data[merged_data['date'] > '2023-06-12']
     post_closure_data = merged_data[target_variables]
     pre_closure_data = merged_data[selected_features]
     selected_features_with_date = selected_features + ['date']
