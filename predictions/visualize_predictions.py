@@ -21,8 +21,14 @@ def plot_predictions(csv_file1, csv_file2):
     predictions2 = preprocess(csv_file2)
 
     # Colors
-    tum_blue = '#072140'
+    tum_blue = '#3070B3'
+    tum_dark_blue = '#072140'
     tum_lighter_blue = '#5E94D4'
+    tum_orange = '#F7811E'
+    tum_green = '#9FBA36'
+    black = '#000000'
+    tum_gray = '#6A757E'
+    tum_light_gray = '#dad7cb'
 
     # Set up the matplotlib figure and axes
     fig, axes = plt.subplots(2, 2, figsize=(18, 12))

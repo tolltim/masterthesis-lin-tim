@@ -37,11 +37,11 @@ def get_config():
         'road_closure_date': "12.06.2023",  # closure date of südliche au
         "use_all_features": False,
         "selected_features":
-            ['inner_speed1_', 'inner_speed2_', 'outer_speed_', 'inner_speed8_',
-             'inner_speed5_', 'inner_speed7_', 'wpgt_', 'inner_speed6_',
-             'inner_emoped_', 'tavg_', 'outer_escooter_', 'inner_speed3_',
-             'inner_escooter_', 'weekday', 'biketotal_', 'inner_speed4_',
-             'newmobility', 'tmin_', 'wspd_' ],
+            ['Speed inner1_', 'Speed inner2_', 'Speed inner3_', 'Speed inner4_',
+    'Speed inner5_', 'Speed inner6_', 'Speed inner7_', 'Speed inner8_', 'Speed outer_', 'Average temperature_', 'Minimum temperature_', 'Precipitation_', 'Wind direction_', 'Wind speed_', 'Wind peak gust_',
+    'Number of bicyclists_', "E-scooter inner area_",  "E-moped inner area_",'Mobility hubs added',
+    'weekday' ],
+
             #
             # ['inner_actmode_','inner_escooter_', 'outer_escooter_', 'inner_speed1_', 'inner_speed2_', 'outer_speed_',
             #  'outer_emoped', 'inner_emoped', 'inner_speed8_',
@@ -50,7 +50,8 @@ def get_config():
             #  'tmin_', 'prcp_'],
         # these are the same features only adding the before name to hinder the model to predict future variables
         # with the same feature values, so for example, inner_speed1 would be predicted by inner_speed1, which makes no sense, so i invent those variables _before, with only the average after the road closure data
-        'targets': ['inner_speed1', 'inner_speed2', 'inner_speed3', 'inner_speed4', 'inner_speed5', 'inner_speed6', 'inner_speed7', 'inner_speed8'],  # these targets are the inner project area of the süedliche au
+        'targets': ['Speed inner1', 'Speed inner2', 'Speed inner3', 'Speed inner4',
+    'Speed inner5', 'Speed inner6', 'Speed inner7', 'Speed inner8'],  # these targets are the inner project area of the süedliche au
         'test_size': 0.2,
         'random_state': 42
     }
@@ -366,14 +367,15 @@ def main():
 
     datasets = load_data(config['data_files'], config['base_path'])
     merged_data = merge_data(datasets)
-    features_to_process = ['wspd', 'bikedirection_south',
-                           'bikedirection_north', 'tavg', 'inner_speed8',
-                           'snow', 'pres', 'wpgt', 'inner_speed1',
-                           'outer_actmode', 'inner_speed7',
-                           'inner_speed4', 'prcp', 'inner_speed3', 'tmax',
-                           'inner_actmode', 'inner_speed5', 'inner_speed6', 'tmin', 'tsun', 'wdir',
-                           'inner_speed2', 'outer_speed',
-                           'biketotal', "inner_escooter", "outer_escooter", "inner_emoped", "outer_emoped"]  # Replace with your actual feature names
+    features_to_process = [ 'bikedirection_south',
+                           'bikedirection_north',
+                           'snow', 'pres',
+                           'outer_actmode',    'tmax',
+                           'inner_actmode', 'tsun',
+                           'Average temperature','Minimum temperature', 'Precipitation',  'Wind direction', 'Wind speed', 'Wind peak gust',
+                           'Number of bicyclists', "E-scooter inner area", "outer_escooter", "E-moped inner area", "outer_emoped",
+                           'Speed inner1','Speed inner2','Speed inner3','Speed inner4',
+                           'Speed inner5','Speed inner6','Speed inner7','Speed inner8','Speed outer']  # Replace with your actual feature names
     road_closure_date = config['road_closure_date']
     merged_data = add_pre_closure_means_by_weekday(merged_data, features_to_process, road_closure_date)
 

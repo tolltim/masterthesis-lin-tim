@@ -1,4 +1,4 @@
-﻿date,education-inner,education-outer,consumption-inner,consumption-outer,transportation-inner,transportation-outer,cultural-inner,cultural-outer,bicycle-inner,bicycle-outer,removedparking,newmobility,percentageclosedstreet
+﻿date,education-inner,education-outer,consumption-inner,consumption-outer,transportation-inner,transportation-outer,cultural-inner,cultural-outer,bicycle-inner,bicycle-outer,Number of removed parking spots,newmobility,percentageclosedstreet
 02.05.2023,0,36,6,114,4,154,0,0,6,176,0,0,0
 03.05.2023,0,36,6,114,4,154,0,0,6,176,0,0,0
 04.05.2023,0,36,6,114,4,154,0,0,6,176,0,0,0

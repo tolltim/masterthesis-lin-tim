@@ -34,13 +34,15 @@ def get_config():
         "grid_search": False,
         'road_closure_date': "05.07.2023",
         "use_all_features": False,
-        "selected_features":['inner_speed1_', 'inner_speed2_', 'outer_speed_', 'inner_speed8_','inner_speed3_','inner_speed4_',
-             'inner_speed5_', 'inner_speed7_',  'inner_speed6_','prcp_',
-             'inner_actmode_', 'tmin_', 'outer_actmode_',
-              'weekday', 'biketotal_',
-             'removedparking'],
+        "selected_features":['Speed inner1_', 'Speed inner2_', 'Speed inner3_', 'Speed inner4_',
+    'Speed inner5_', 'Speed inner6_', 'Speed inner7_', 'Speed inner8_', 'Speed outer_', 'Average temperature_', 'Minimum temperature_', 'Precipitation_', 'Wind direction_', 'Wind speed_', 'Wind peak gust_',
+    'Number of bicyclists_',
+             'Activity data inner_',  'Activity data outer_',
+              'weekday',
+             'Number of removed parking spots'],
         # features are same as target (some of them) which is needed for only training! this model is not correct for predicting!!
-        'targets': ['inner_speed1', 'inner_speed2', 'inner_speed3', 'inner_speed4', 'inner_speed5', 'inner_speed6', 'inner_speed7', 'inner_speed8'],  # these targets are the inner porject area of walchenseeplatz
+        'targets': ['Speed inner1', 'Speed inner2', 'Speed inner3', 'Speed inner4',
+    'Speed inner5', 'Speed inner6', 'Speed inner7', 'Speed inner8'],  # these targets are the inner porject area of walchenseeplatz
         'test_size': 0.2,
         'random_state': 42
     }
@@ -347,15 +349,15 @@ def main():
 
     datasets = load_data(config['data_files'], config['base_path'])
     merged_data = merge_data(datasets)
-    features_to_process = ['inner_speed','wspd',  'outer_age', 'bikedirection_south',
-                              'bikedirection_north', 'tavg',
-                              'snow', 'pres', 'wpgt',
-                               'outer_actmode',
-                                 'prcp',   'tmax',
-                               'inner_actmode',  'tmin', 'tsun',  'wdir',
-                               'outer_speed',
-                                'biketotal', 'inner_speed1','inner_speed2',
-                              'inner_speed3','inner_speed4','inner_speed5','inner_speed6','inner_speed7','inner_speed8']  # Replace with your actual feature names, right now it is emtpy for perfect prediction model
+    features_to_process = ['inner_speed',  'outer_age', 'bikedirection_south',
+                              'bikedirection_north',
+                              'snow', 'pres',
+                               'Activity data outer',
+                                   'tmax',
+                               'Activity data inner',  'Average temperature','Minimum temperature', 'Precipitation',  'Wind direction', 'Wind speed', 'Wind peak gust',
+                           'Number of bicyclists',
+                           'Speed inner1','Speed inner2','Speed inner3','Speed inner4',
+                           'Speed inner5','Speed inner6','Speed inner7','Speed inner8','Speed outer']
     road_closure_date = config['road_closure_date']
     merged_data = add_pre_closure_means_by_weekday(merged_data, features_to_process, road_closure_date)
 

@@ -1,4 +1,4 @@
-date,tavg,tmin,tmax,prcp,snow,wdir,wspd,wpgt,pres,tsun
+date,Average temperature,Minimum temperature,tmax,Precipitation,snow,Wind direction,Wind speed,Wind peak gust,pres,tsun
 02.05.2023,10.1,5.9,14.1,2.6,0,242,7.6,31.3,1021.4,49
 03.05.2023,10.6,5.4,17.6,0,0,50,7.6,28.4,1023.9,407
 04.05.2023,13.6,6,20.6,0,0,82,10.4,30.6,1019.8,799
